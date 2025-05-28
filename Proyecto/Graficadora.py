@@ -10,7 +10,7 @@ import Funciones as f
 AnchoCanva = 500
 AltoCanva = 500
 DefinicionCanva = 5
-DefinicionColores = 50
+DefinicionColores = 100
 
 # Seleccionamos la funcion que queremos graficar
 f.seleccionarAckleyFunction()
@@ -23,8 +23,7 @@ Canvas = Canvas(window, width=AnchoCanva, height=AltoCanva)
 
 # Definimos los colores que vamos a usar y haecemos un rango de colores
 red = Color("red")
-colors = list(Color("red").range_to(Color("green"),
-                                    round((f.FinalRango-f.InicioRango)*DefinicionColores)))
+colors = list(Color("red").range_to(Color("green"),DefinicionColores))
 
 # Por cada pixel del canvas, calculamos el valor de la funcion y pintamos el pixel
 for i in range(0,AnchoCanva,DefinicionCanva):
