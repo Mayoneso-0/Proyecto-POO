@@ -9,11 +9,11 @@ import Funciones as f
 # Definimos las variables necesarias para la ventana y el canvas
 AnchoCanva = 500
 AltoCanva = 500
-DefinicionCanva = 2
+DefinicionCanva = 5
 DefinicionColores = 50
 
 # Seleccionamos la funcion que queremos graficar
-f.seleccionarEasomFunction()
+f.seleccionarAckleyFunction()
 
 
 
