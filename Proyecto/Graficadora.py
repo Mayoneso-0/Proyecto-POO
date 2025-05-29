@@ -22,7 +22,6 @@ window = Tk()
 Canvas = Canvas(window, width=AnchoCanva, height=AltoCanva)
 
 # Definimos los colores que vamos a usar y haecemos un rango de colores
-red = Color("red")
 colors = list(Color("red").range_to(Color("green"),DefinicionColores))
 
 # Por cada pixel del canvas, calculamos el valor de la funcion y pintamos el pixel
