@@ -122,3 +122,128 @@ def seleccionarEasomFunction():
     global Funcion
     Funcion = easomFunction
 
+def rastriginFunction(x, y):
+    resultado = 10*2 + (x**2 - 10*math.cos(2*math.pi*x)) + (y**2 - 10*math.cos(2*math.pi*y))
+    return round(resultado,5)
+def seleccionarRastriginFunction():
+    global InicioDomX
+    InicioDomX = -5.12
+    global FinalDomX
+    FinalDomX = 5.12
+    global InicioDomY
+    InicioDomY = -5.12
+    global FinalDomY
+    FinalDomY = 5.12
+
+    global InicioRango
+    InicioRango = 0
+    global FinalRango
+    FinalRango = 85
+
+    global Funcion
+    Funcion = rastriginFunction
+
+def sphereFunction(x, y):
+    resultado = (x**2 + y**2)
+    return round(resultado,5)
+def seleccionarSphereFunction():
+    global InicioDomX
+    InicioDomX = -2
+    global FinalDomX
+    FinalDomX = 2
+    global InicioDomY
+    InicioDomY = -2
+    global FinalDomY
+    FinalDomY = 2
+
+    global InicioRango
+    InicioRango = 0
+    global FinalRango
+    FinalRango = 9
+
+    global Funcion
+    Funcion = sphereFunction
+
+def griewankFunction(x, y):
+    resultado = 1 + 1/4000 * (x**2 + y**2) - (math.cos(x) * math.cos(y/2**0.5))
+    return round(resultado,5)
+def seleccionarGriewankFunction():
+    global InicioDomX
+    InicioDomX = -10
+    global FinalDomX
+    FinalDomX = 10
+    global InicioDomY
+    InicioDomY = -10
+    global FinalDomY
+    FinalDomY = 10
+
+    global InicioRango
+    InicioRango = 0
+    global FinalRango
+    FinalRango = 2.1
+
+    global Funcion
+    Funcion = griewankFunction
+
+def crossInTrayFunction(x, y):
+    resultado = -0.0001 * (abs(math.sin(x)*math.sin(y)*math.exp(abs(100-((x**2+y**2)**0.5)/math.pi))) + 1)**0.1
+    return round(resultado,5)
+def seleccionarCrossInTrayFunction():
+    global InicioDomX
+    InicioDomX = -10
+    global FinalDomX
+    FinalDomX = 10
+    global InicioDomY
+    InicioDomY = -10
+    global FinalDomY
+    FinalDomY = 10
+
+    global InicioRango
+    InicioRango = -2.1
+    global FinalRango
+    FinalRango = 0.5
+
+    global Funcion
+    Funcion = crossInTrayFunction
+
+def eggHolderFunction(x, y):
+    resultado = -(y+47)*math.sin((abs(x/2+(y+47)))**0.5)-x*math.sin((abs(x-(y+47)))**0.5)
+    return round(resultado,5)
+def seleccionarEggHolderFunction():
+    global InicioDomX
+    InicioDomX = -1000
+    global FinalDomX
+    FinalDomX = 1000
+    global InicioDomY
+    InicioDomY = -1000
+    global FinalDomY
+    FinalDomY = 1000
+
+    global InicioRango
+    InicioRango = -2000
+    global FinalRango
+    FinalRango = 2000
+
+    global Funcion
+    Funcion = eggHolderFunction
+
+def holderTableFunction(x, y):
+    resultado = -abs(math.sin(x)*math.cos(y)*math.exp(abs(1-((x**2+y**2)**0.5)/math.pi)))
+    return round(resultado,5)
+def seleccionarHolderTableFunction():
+    global InicioDomX
+    InicioDomX = -10
+    global FinalDomX
+    FinalDomX = 10
+    global InicioDomY
+    InicioDomY = -10
+    global FinalDomY
+    FinalDomY = 10
+
+    global InicioRango
+    InicioRango = -20
+    global FinalRango
+    FinalRango = 0.5
+
+    global Funcion
+    Funcion = holderTableFunction
