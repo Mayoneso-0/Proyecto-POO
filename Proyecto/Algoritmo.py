@@ -14,7 +14,7 @@ class Particula:
         
 # Clase que representa el enjambre de partículas
 class Enjambre:
-    # Las vaiables propiedades del enjambre
+    # Las variables propiedades del enjambre
     def __init__(self, num_particulas):
         self.num_particulas = num_particulas
         self.particulas = []
