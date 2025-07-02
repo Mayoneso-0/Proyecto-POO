@@ -1,14 +1,15 @@
 Este proyecto implementa un algoritmo de optimización por enjambre de partículas (PSO) con una interfaz gráfica en Tkinter para visualizar el comportamiento de las partículas sobre funciones matemáticas clásicas de benchmark.
+
 El main es graficadora y la librería colour es necesaria para manejar la paleta de colores. El comando está comentado en el código de Graficadora.py.
 Luego, dentro de la interfaz gráfica selecciona la función deseada  modificando manualmente en el código:
 self.funcion = seleccionarAckleyFunction()
 Por ahora hay 11 funciones para implementar, las opciones son de esta wiki: https://en.wikipedia.org/wiki/Test_functions_for_optimization.
 
 Teclas asociadas:
-      <q> → iniciar_enjambre()
-      <w> → iterar_algoritmo()
-      <e> → finalizar_algoritmo()
-
+      q → iniciar_enjambre()
+      w → iterar_algoritmo()
+      e → finalizar_algoritmo()
+```mermaid
 classDiagram
     class Particula {
         -x: float
@@ -75,4 +76,4 @@ classDiagram
 
     Graficadora ..> Enjambre : instancia y usa
     Graficadora ..> Funciones : selecciona función
-
+```
