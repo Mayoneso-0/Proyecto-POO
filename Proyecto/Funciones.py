@@ -246,13 +246,13 @@ def egg_holder_function(x, y):
     return round(resultado,5)
 def seleccionar_egg_holder_function():
     global inicio_dom_x
-    inicio_dom_x = -1000
+    inicio_dom_x = -512
     global final_dom_x
-    final_dom_x = 1000
+    final_dom_x = 512
     global inicio_dom_y
-    inicio_dom_y = -1000
+    inicio_dom_y = -512
     global final_dom_y
-    final_dom_y = 1000
+    final_dom_y = 512
 
     global inicio_rango
     inicio_rango = -2000
