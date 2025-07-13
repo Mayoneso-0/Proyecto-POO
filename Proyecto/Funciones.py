@@ -29,7 +29,7 @@ def ackley_function(x, y):
     resultado = -20*math.exp(-0.2*(0.5*(x**2+y**2)**0.5)) \
         -math.exp(0.5*(math.cos(2*math.pi*x)+math.cos(2*math.pi*y))) \
         +math.e+20
-    return round(resultado,5)
+    return resultado
 def seleccionar_ackley_function():
     global inicio_dom_x
     inicio_dom_x = -5
@@ -52,7 +52,7 @@ def mc_cormick_function(x, y):
     if x < inicio_dom_x or x > final_dom_x or y < inicio_dom_y or y > final_dom_y:
         return final_rango
     resultado = (math.sin(x+y)) + (x-y)**2 - 1.5*x + 2.5*y + 1
-    return round(resultado,5)
+    return resultado
 def seleccionar_mc_cormick_function():
     global inicio_dom_x
     inicio_dom_x = -1.5
@@ -100,7 +100,7 @@ def levi_n13_function(x, y):
     resultado = (math.sin(3*math.pi*x))**2 + (x-1)**2 * \
                 (1 + (math.sin(3*math.pi*y)**2)) + (y-1)**2 * \
                 (1+(math.sin(2*math.pi*y)**2))
-    return round(resultado,5)
+    return resultado
 def seleccionar_levi_n13_function():
     global inicio_dom_x
     inicio_dom_x = -10
@@ -124,7 +124,7 @@ def easom_function(x, y):
         return final_rango
     resultado = -math.cos(x)*math.cos(y)* \
                  math.exp(-((x-math.pi)**2+(y-math.pi)**2))
-    return round(resultado,5)
+    return resultado
 def seleccionar_easom_function():
     global inicio_dom_x
     inicio_dom_x = -1
@@ -148,7 +148,7 @@ def rastrigin_function(x, y):
         return final_rango
     resultado = 10*2 + (x**2 - 10*math.cos(2*math.pi*x)) + \
                 (y**2 - 10*math.cos(2*math.pi*y))
-    return round(resultado,5)
+    return resultado
 def seleccionar_rastrigin_function():
     global inicio_dom_x
     inicio_dom_x = -5.12
@@ -171,7 +171,7 @@ def sphere_function(x, y):
     if x < inicio_dom_x or x > final_dom_x or y < inicio_dom_y or y > final_dom_y:
         return final_rango
     resultado = (x**2 + y**2)
-    return round(resultado,5)
+    return resultado
 def seleccionar_sphere_function():
     global inicio_dom_x
     inicio_dom_x = -2
@@ -194,7 +194,7 @@ def griewank_function(x, y):
     if x < inicio_dom_x or x > final_dom_x or y < inicio_dom_y or y > final_dom_y:
         return final_rango
     resultado = 1 + 1/4000 * (x**2 + y**2) - (math.cos(x) * math.cos(y/2**0.5))
-    return round(resultado,5)
+    return resultado
 def seleccionar_griewank_function():
     global inicio_dom_x
     inicio_dom_x = -10
@@ -219,7 +219,7 @@ def cross_in_tray_function(x, y):
     resultado = -0.0001 * (abs(math.sin(x)*math.sin(y)* \
                                math.exp(abs(100-((x**2+y**2) \
                                **0.5)/math.pi))) + 1)**0.1
-    return round(resultado,5)
+    return resultado
 def seleccionar_cross_in_tray_function():
     global inicio_dom_x
     inicio_dom_x = -10
@@ -243,7 +243,7 @@ def egg_holder_function(x, y):
         return final_rango
     resultado = -(y+47)*math.sin((abs(x/2+(y+47)))**0.5)- \
                 x*math.sin((abs(x-(y+47)))**0.5)
-    return round(resultado,5)
+    return resultado
 def seleccionar_egg_holder_function():
     global inicio_dom_x
     inicio_dom_x = -512
@@ -267,7 +267,7 @@ def holder_table_function(x, y):
         return final_rango
     resultado = -abs(math.sin(x)*math.cos(y)*math.exp( \
                      abs(1-((x**2+y**2)**0.5)/math.pi)))
-    return round(resultado,5)
+    return resultado
 def seleccionar_holder_table_function():
     global inicio_dom_x
     inicio_dom_x = -10
