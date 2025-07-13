@@ -23,6 +23,29 @@ def trans_lin_dom_y(x, a, b):
 
 # Cada funcion tiene su dominio y rango, 
 # que se definen en las funciones de seleccion
+def mi_function(x, y):
+    if x < inicio_dom_x or x > final_dom_x or y < inicio_dom_y or y > final_dom_y:
+        return final_rango
+    resultado = ((x+12)**2+(y-12)**2)**1/2+((x-4)**2+(y-2)**2)**1/2+((x+8)**2+(y+10)**2)**1/2
+    return resultado
+def seleccionar_mi_function():
+    global inicio_dom_x
+    inicio_dom_x = -20
+    global final_dom_x
+    final_dom_x = 20
+    global inicio_dom_y
+    inicio_dom_y = -20
+    global final_dom_y
+    final_dom_y = 20
+
+    global inicio_rango
+    inicio_rango = 80
+    global final_rango
+    final_rango = 2000
+
+    global funcion
+    funcion = mi_function
+    
 def ackley_function(x, y):
     if x < inicio_dom_x or x > final_dom_x or y < inicio_dom_y or y > final_dom_y:
         return final_rango
