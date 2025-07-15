@@ -6,6 +6,9 @@ from colour import Color #Para este necesitamos instalar libreria "colour" con
 import Funciones as f
 import Algoritmo as alg
 import math
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+import numpy as np
 
 # Definimos las variables
 ancho_canva = 500
@@ -35,7 +38,16 @@ f.seleccionar_rastrigin_function()
 
 # Creamos la ventana y el canvas
 window = Tk()
-canvas = Canvas(window, width=ancho_canva, height=alto_canva)
+# Frame izquierdo para canvas 2D
+frame_left = __import__('tkinter').Frame(window)
+frame_left.pack(side='left', fill='both', expand=True)
+# Frame derecho para canvas 3D
+frame_right = __import__('tkinter').Frame(window)
+frame_right.pack(side='right', fill='both', expand=True)
+
+# Canvas de Tkinter y visualización 2D 
+canvas = Canvas(frame_left, width=ancho_canva, height=alto_canva)
+canvas.pack(fill='both', expand=True)
 
 # Gradiente Colores
 colors = list(Color("red").range_to(Color("green"),definicion_colores))
@@ -71,16 +83,33 @@ for i in range(0, ancho_canva, definicion_canva):
         canvas.create_rectangle(i, o, i+definicion_canva, o+definicion_canva,
                                outline=colors[color_index],
                                fill=colors[color_index])
-canvas.pack()
+        
+fig = plt.figure(figsize=(5, 5))
+ax = fig.add_subplot(111, projection='3d')
+# Crear malla para la función objetivo
+x = np.linspace(f.inicio_dom_x, f.final_dom_x, 100)
+y = np.linspace(f.inicio_dom_y, f.final_dom_y, 100)
+X, Y = np.meshgrid(x, y)
+Z = np.vectorize(f.funcion)(X, Y)
+surf = ax.plot_surface(X, Y, Z, cmap='RdYlGn', edgecolor='none', alpha=0.9)
+ax.set_title('Función objetivo (3D)')
+ax.set_xlabel('x')
+ax.set_ylabel('y')  
+ax.set_zlabel('f(x, y)')
 
 # Creamos el enjambre de particulas
-enjambre1 = alg.Enjambre(num_particulas = num_particulas)
+enjambre1 = None
+# Embebemos la figura 3D en Tkinter a la derecha
+canvas3d = FigureCanvasTkAgg(fig, master=frame_right)
+canvas3d.draw()
+canvas3d.get_tk_widget().pack(fill='both', expand=True)
 
 # Definimos las funciones de los eventos del teclado
 enjambre_creado = False
 def iniciar_enjambre(event):
-    global enjambre_creado
+    global enjambre_creado, enjambre1, dibujo_particulas
     if not enjambre_creado:
+        enjambre1 = alg.Enjambre(num_particulas = num_particulas)
         enjambre1.crear_enjambre(ancho_canva=ancho_canva, alto_canva=alto_canva)
         for i in enjambre1.particulas:
             dibujo_particulas.append(canvas.create_rectangle(i.x,i.y,i.x+5,i.y+5,
@@ -91,6 +120,9 @@ window.bind("<q>", iniciar_enjambre)
 
 def iterar_algoritmo(event):
     global seguir_iterando,finalizar_algoritmo, pp, pg, iteracion, min_iteraciones
+    if enjambre1 is None:
+        print("Primero debes crear el enjambre presionando 'q'.")
+        return
     num_coords_iguales = 0
     mejor_coords_penultima = 0
     mejor_cooords_ultima = (enjambre1.mejor_pos_global_x, enjambre1.mejor_pos_global_y)
