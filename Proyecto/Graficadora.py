@@ -9,6 +9,8 @@ import math
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import numpy as np
+# pip install matplotlib
+# pip install numpy
 
 # Definimos las variables
 ancho_canva = 500
@@ -32,12 +34,14 @@ manual = False
 seguir_iterando = True
 
 # Seleccionamos la funcion que queremos graficar
-# egg_holder_function
 
 f.seleccionar_rastrigin_function()
 
 # Creamos la ventana y el canvas
 window = Tk()
+window.title("Algoritmo PSO")
+window.iconbitmap("icono.ico")
+
 # Frame izquierdo para canvas 2D
 frame_left = __import__('tkinter').Frame(window)
 frame_left.pack(side='left', fill='both', expand=True)
