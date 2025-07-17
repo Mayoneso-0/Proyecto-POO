@@ -6,11 +6,11 @@ inicio_dom_y = 0
 final_dom_y = 0
 
 
-objectives_func = None 
+objectives_func = None
 constraints_func = None
 
 def map_to_domain(value, source_range, target_range) -> float:
-
+    """Mapea un valor de un rango de origen a un rango de destino."""
     source_min, source_max = source_range
     target_min, target_max = target_range
 
@@ -19,9 +19,16 @@ def map_to_domain(value, source_range, target_range) -> float:
         
     return target_min + (value - source_min) * (target_max - target_min) / (source_max - source_min)
 
+def map_to_domain_x(value, canvas_max) -> float:
+    """Mapea el valor X del canvas al dominio del problema."""
+    return map_to_domain(value, (0, canvas_max), (inicio_dom_x, final_dom_x))
+
+def map_to_domain_y(value, canvas_max) -> float:
+    """Mapea el valor Y del canvas al dominio del problema."""
+    return map_to_domain(value, (0, canvas_max), (inicio_dom_y, final_dom_y))
+
 
 def binh_and_korn_objectives(x, y) -> tuple:
-
     #Funciones objetivo de Binh and Korn
     f1 = 4 * x**2 + 4 * y**2
     f2 = (x - 5)**2 + (y - 5)**2
@@ -45,7 +52,6 @@ def seleccionar_binh_and_korn():
     objectives_func = binh_and_korn_objectives
     constraints_func = binh_and_korn_constraints
     print("Problema: Binh and Korn")
-
 
 
 def schaffer_n1_objectives(x, y) -> tuple:
@@ -73,7 +79,7 @@ def seleccionar_schaffer_n1():
 def chankong_and_haimes_objectives(x, y) -> tuple:
     #Funciones objetivo de Chankong and Haimes
     f1 = 2 + (x - 2)**2 + (y - 1)**2
-    f2 = 9*x + (y - 1)**2
+    f2 = 9*x - (y - 1)**2
     return (f1, f2)
 
 def chankong_and_haimes_constraints(x, y) -> bool:
@@ -150,15 +156,25 @@ def seleccionar_polonis_two_objective_function():
 
 
 def ctp1_function_objectives(x, y) -> tuple:
-    #Funciones objetivo de CTP1 Function
+    # Prevenir división por cero y valores negativos
+    if y < -0.999:  # Evitar y = -1
+        y = -0.999
+    
     f1 = x
-    f2 = (1 + y)* exp(-x / (1+y))
+    f2 = (1 + y) * exp(-x / (1 + y)) if (1 + y) != 0 else float('inf')
     return (f1, f2)
 
 def ctp1_function_constraints(x, y) -> bool:
-    #Restricciones de la función
-    g1 = (((1 + y)* exp(-x / (1+y))) / 0.858*exp(-0.541*x)) >= 1
-    g2 = (((1 + y)* exp(-x / (1+y))) / 0.728*exp(-0.295*x)) >= 1
+    if y < -0.999:  # Evitar y = -1
+        return False
+        
+    f2 = (1 + y) * exp(-x / (1 + y)) if (1 + y) != 0 else float('inf')
+    
+    # Restricciones originales de CTP1
+    g1 = f2 >= 0.858 * exp(-0.541 * x)
+    g2 = f2 >= 0.728 * exp(-0.295 * x)
+    
+    return g1 and g2
 
 def seleccionar_ctp1_function():
     global inicio_dom_x, final_dom_x, inicio_dom_y, final_dom_y
@@ -166,12 +182,9 @@ def seleccionar_ctp1_function():
 
     inicio_dom_x = 0
     final_dom_x = 1
-    inicio_dom_y = 0
+    inicio_dom_y = -1  # Cambiado para incluir valores negativos
     final_dom_y = 1
     
     objectives_func = ctp1_function_objectives
     constraints_func = ctp1_function_constraints
     print("Problema: CTP1 Function")
-
-
-    
