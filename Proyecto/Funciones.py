@@ -169,7 +169,7 @@ def seleccionar_booth_function():
 def bukin_n6_function(x, y):
     if x < inicio_dom_x or x > final_dom_x or y < inicio_dom_y or y > final_dom_y:
         return 1e10
-    resultado = 100*(abs(y-0.01*x**2))**1/2+0.01*abs(x+10)
+    resultado = 100*(abs(y-0.01*x**2))**(1/2)+0.01*abs(x+10)
     return resultado
 def seleccionar_bukin_n6_function():
     global inicio_dom_x
