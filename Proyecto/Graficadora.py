@@ -40,7 +40,7 @@ f.seleccionar_rastrigin_function()
 # Creamos la ventana y el canvas
 window = Tk()
 window.title("Algoritmo PSO")
-window.iconbitmap("icono.ico")
+#window.iconbitmap("icono.ico")
 
 # Frame izquierdo para canvas 2D
 frame_left = __import__('tkinter').Frame(window)
