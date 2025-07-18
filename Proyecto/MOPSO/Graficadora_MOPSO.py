@@ -17,7 +17,7 @@ window = Tk()
 window.title("Visualizador MOPSO")
 
 # Seleccionamos el problema a resolver
-f_mo.seleccionar_kursawe2()
+f_mo.seleccionar_schaffer_n2()
 
 # Creamos un Frame principal para organizar los dos gráficos
 main_frame = Frame(window)
@@ -122,11 +122,12 @@ def iterar_algoritmo(event=None):
 
 def ejecutar_un_paso():
     global dibujo_lideres_decision, iteracion_activa
+    limite_lideres = f_mo.limite_lideres
     if not iteracion_activa: return
     # Verificar si alcanzamos el límite de líderes
-    if len(enjambre.lideres) >= 200:
+    if len(enjambre.lideres) >= limite_lideres:
         iteracion_activa = False
-        print(f"\nAlgoritmo finalizado: Se alcanzaron 200 lideres en el frente de Pareto")
+        print(f"\nAlgoritmo finalizado: Se alcanzaron {limite_lideres} lideres en el frente de Pareto")
         return
 
     # Ejecutar una iteración del algoritmo MOPSO
