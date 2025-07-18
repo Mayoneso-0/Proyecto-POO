@@ -4,6 +4,8 @@ inicio_dom_x = 0
 final_dom_x = 0
 inicio_dom_y = 0
 final_dom_y = 0
+# Se define el delay para las iteraciones
+delay = 0 
 
 
 objectives_func = None
@@ -42,7 +44,7 @@ def binh_and_korn_constraints(x, y) -> bool:
 
 def seleccionar_binh_and_korn():
     global inicio_dom_x, final_dom_x, inicio_dom_y, final_dom_y
-    global objectives_func, constraints_func
+    global objectives_func, constraints_func, delay
 
     inicio_dom_x = 0
     final_dom_x = 5
@@ -65,7 +67,7 @@ def schaffer_n1_constraints(x, y) -> bool:
 
 def seleccionar_schaffer_n1():
     global inicio_dom_x, final_dom_x, inicio_dom_y, final_dom_y
-    global objectives_func, constraints_func
+    global objectives_func, constraints_func, delay
 
     inicio_dom_x = -100
     final_dom_x = 100
@@ -90,7 +92,7 @@ def chankong_and_haimes_constraints(x, y) -> bool:
 
 def seleccionar_chankong_and_haimes():
     global inicio_dom_x, final_dom_x, inicio_dom_y, final_dom_y
-    global objectives_func, constraints_func
+    global objectives_func, constraints_func, delay
 
     inicio_dom_x = -20
     final_dom_x = 20
@@ -116,7 +118,7 @@ def test_function_4_constraints(x, y) -> bool:
 
 def seleccionar_test_function_4():
     global inicio_dom_x, final_dom_x, inicio_dom_y, final_dom_y
-    global objectives_func, constraints_func
+    global objectives_func, constraints_func, delay
 
     inicio_dom_x = -7
     final_dom_x = 4
@@ -143,7 +145,7 @@ def polonis_two_objective_function_constraints(x, y) -> bool:
 
 def seleccionar_polonis_two_objective_function():
     global inicio_dom_x, final_dom_x, inicio_dom_y, final_dom_y
-    global objectives_func, constraints_func
+    global objectives_func, constraints_func, delay
 
     inicio_dom_x = -pi
     final_dom_x = pi
@@ -178,7 +180,7 @@ def ctp1_function_constraints(x, y) -> bool:
 
 def seleccionar_ctp1_function():
     global inicio_dom_x, final_dom_x, inicio_dom_y, final_dom_y
-    global objectives_func, constraints_func
+    global objectives_func, constraints_func, delay
 
     inicio_dom_x = 0
     final_dom_x = 1
