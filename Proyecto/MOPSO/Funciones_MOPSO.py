@@ -50,6 +50,7 @@ def seleccionar_binh_and_korn():
     final_dom_x = 5
     inicio_dom_y = 0
     final_dom_y = 3
+    delay = 70
     
     objectives_func = binh_and_korn_objectives
     constraints_func = binh_and_korn_constraints
@@ -73,6 +74,7 @@ def seleccionar_schaffer_n1():
     final_dom_x = 100
     inicio_dom_y = -100
     final_dom_y = 100
+    delay = 10
     
     objectives_func = schaffer_n1_objectives
     constraints_func = schaffer_n1_constraints
@@ -98,6 +100,7 @@ def seleccionar_chankong_and_haimes():
     final_dom_x = 20
     inicio_dom_y = -20
     final_dom_y = 20
+    delay = 0
     
     objectives_func = chankong_and_haimes_objectives
     constraints_func = chankong_and_haimes_constraints
@@ -124,6 +127,7 @@ def seleccionar_test_function_4():
     final_dom_x = 4
     inicio_dom_y = -7
     final_dom_y = 4
+    delay = 10
     
     objectives_func = test_function_4_objectives
     constraints_func = test_function_4_constraints
@@ -151,6 +155,7 @@ def seleccionar_polonis_two_objective_function():
     final_dom_x = pi
     inicio_dom_y = -pi
     final_dom_y = pi
+    delay = 0
     
     objectives_func = polonis_two_objective_function_objectives
     constraints_func = polonis_two_objective_function_constraints
@@ -186,6 +191,7 @@ def seleccionar_ctp1_function():
     final_dom_x = 1
     inicio_dom_y = -1  # Cambiado para incluir valores negativos
     final_dom_y = 1
+    delay = 0
     
     objectives_func = ctp1_function_objectives
     constraints_func = ctp1_function_constraints
