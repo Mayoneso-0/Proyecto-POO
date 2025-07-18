@@ -17,7 +17,7 @@ window = Tk()
 window.title("Visualizador MOPSO")
 
 # Seleccionamos el problema a resolver
-f_mo.seleccionar_test_function_4()
+f_mo.seleccionar_kursawe2()
 
 # Creamos un Frame principal para organizar los dos gráficos
 main_frame = Frame(window)
@@ -121,10 +121,15 @@ def iterar_algoritmo(event=None):
     ejecutar_un_paso()
 
 def ejecutar_un_paso():
-    global dibujo_lideres_decision
+    global dibujo_lideres_decision, iteracion_activa
     if not iteracion_activa: return
+    # Verificar si alcanzamos el límite de líderes
+    if len(enjambre.lideres) >= 200:
+        iteracion_activa = False
+        print(f"\nAlgoritmo finalizado: Se alcanzaron 200 lideres en el frente de Pareto")
+        return
 
-    # Ejecutar una iteración del algoritmo MOPSO (removemos f_mo del llamado)
+    # Ejecutar una iteración del algoritmo MOPSO
     velocidades_x, velocidades_y = enjambre.iterar_algoritmo(
         ancho_canva-padding*2, alto_canva-padding*2, w, pp, pg
     )
@@ -149,13 +154,10 @@ def ejecutar_un_paso():
             fill="green", outline="green"
         )
         dibujo_lideres_decision.append(rect)
-
-        """window.update()
-        window.after(20)"""
-
     
     graficar_frente_pareto(objective_space_canvas, enjambre.lideres, ancho_canva, alto_canva)
-    window.after(50, ejecutar_un_paso)
+    window.update()
+    window.after(f_mo.delay + 50, ejecutar_un_paso)  # Sumamos los delays
 
 def finalizar_algoritmo(event=None):
     global iteracion_activa
