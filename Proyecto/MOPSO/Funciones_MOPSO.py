@@ -225,3 +225,64 @@ def seleccionar_kursawe2():
 
     print("Problema: Kursawe (n=2)")
 
+def constr_ex_objectives(x, y) -> tuple:
+    # Funciones objetivo de Constr - Ex
+    f1 = x
+    f2 = (1+y)/x
+    return (f1, f2)
+
+def constr_ex_constraints(x, y) -> bool:
+    g1 = (y + 9*x) >= 6
+    g2 = (-y + 9*x) >= 1
+    return g1 and g2
+
+def seleccionar_constr_ex():
+    global inicio_dom_x, final_dom_x
+    global inicio_dom_y, final_dom_y
+    global objectives_func, constraints_func, delay, limite_lideres
+
+    inicio_dom_x = 0.1
+    final_dom_x = 1
+    inicio_dom_y = 0
+    final_domy = 5
+    delay = 10
+    limite_lideres = 800
+
+    objectives_func = constr_ex_objectives
+    constraints_func = constr_ex_constraints
+    print("Problema: Constr - Ex")
+
+def schaffer_n2_objectives(x, y) -> tuple:
+    # Funciones objetivo de Schaffer N. 2
+    if x<= 1:
+        f1 = -x
+    elif 1 < x <=3:
+        f1 = x - 2
+    elif 3 < x <= 4:
+        f1 = 4 - x
+    elif x > 4:
+        f1 = x - 4
+    
+    f2 = (x - 5)**2
+    return (f1, f2)
+
+def schaffer_n2_constraints(x, y) -> bool:
+    # Sin restricciones
+    return True
+
+def seleccionar_schaffer_n2():
+    global inicio_dom_x, final_dom_x
+    global inicio_dom_y, final_dom_y
+    global objectives_func, constraints_func, delay, limite_lideres
+
+    inicio_dom_x = -5
+    final_dom_x = 10
+    inicio_dom_y = -5
+    final_dom_y = 10
+    delay = 10
+    limite_lideres = 300
+
+    objectives_func = schaffer_n2_objectives
+    constraints_func = schaffer_n2_constraints
+    print("Problema: Schaffer N. 2")
+
