@@ -196,3 +196,32 @@ def seleccionar_ctp1_function():
     objectives_func = ctp1_function_objectives
     constraints_func = ctp1_function_constraints
     print("Problema: CTP1 Function")
+
+def kursawe2_objectives(x, y) -> tuple:
+    f1 = -10 * exp(-0.2 * (x*x + y*y)**0.5)
+    # f2: dos términos (i = 1, 2)
+    f2 = (
+        abs(x)**0.8 + 5 * sin(x**3)
+      + abs(y)**0.8 + 5 * sin(y**3)
+    )
+    return (f1, f2)
+
+def kursawe2_constraints(x, y) -> bool:
+    # Sin restricciones
+    return True
+
+def seleccionar_kursawe2():
+    global inicio_dom_x, final_dom_x
+    global inicio_dom_y, final_dom_y
+    global objectives_func, constraints_func, delay
+
+    # Dominio típico: [-5, 5]
+    inicio_dom_x = inicio_dom_y = -5
+    final_dom_x  = final_dom_y  =  5
+    delay = 10
+
+    objectives_func  = kursawe2_objectives
+    constraints_func = kursawe2_constraints
+
+    print("Problema: Kursawe (n=2)")
+
