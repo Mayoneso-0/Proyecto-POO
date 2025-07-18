@@ -1,5 +1,3 @@
-# main_visualizer.py
-
 # Importamos las librerías necesarias
 from tkinter import Tk, Canvas, Frame
 import random
@@ -10,14 +8,11 @@ import Algoritmo_MOPSO as alg
 
 ancho_canva = 500
 alto_canva = 500
-num_particulas = 20  # Aumentado para mejor cobertura
-w = 0.2  # Reducido para mayor estabilidad
-pp = 1.0  # Ajustado para mejor exploración
-pg = 1.0  # Ajustado para mejor exploración
+num_particulas = 20
+w = 0.2
+pp = 1.0
+pg = 1.0
 
-# ==============================================================================
-# CONFIGURACIÓN DE LA VENTANA PRINCIPAL
-# ==============================================================================
 window = Tk()
 window.title("Visualizador MOPSO")
 
