@@ -1,46 +1,80 @@
 # Importamos las librerias necesarias
 from tkinter import Tk, Canvas
 from colour import Color #Para este necesitamos instalar libreria "colour" con
-# pip install colour
-
-import Funciones as f
-import Algoritmo as alg
 import math
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+import json
+import time
 # pip install matplotlib
 # pip install numpy
+# pip install colour
+
+import Funciones as fun
+import Algoritmo as alg
+
 
 # Definimos las variables
-ancho_canva = 500
-alto_canva = 500
-definicion_canva = 5
-definicion_colores = 100
-dibujo_particulas = []
+if os.path.exists('config.json'):
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+    
+    ancho_canva = config['ancho_canva']
+    alto_canva = config['alto_canva']
+    definicion_canva = config['definicion_canva']
+    definicion_colores = config['definicion_colores']
+    num_particulas = config['num_particulas']
+    w = config['w']
+    pp_inicial = config['pp_inicial']
+    pp_final = config['pp_final']
+    pg_inicial = config['pg_inicial']
+    pg_final = config['pg_final']
+    min_iteraciones = config['min_iteraciones']
+    manual = config['manual']
+    funcion_objetivo = config['funcion_objetivo']
+    resultados = config['resultados']
 
-num_particulas = 12
-w = 0.6
-pp_inicial = 2.5
-pp_final = 0.5
-pg_inicial = 0.5
-pg_final = 2.5
+# Seleccionamos la funcion que queremos graficar
+funciones = {"Rastrigin": fun.seleccionar_rastrigin_function,
+            "Ackley": fun.seleccionar_ackley_function,
+            "Beale": fun.seleccionar_beale_function,
+            "Booth": fun.seleccionar_booth_function,
+            "Bukin N. 6": fun.seleccionar_bukin_n6_function, 
+            "Cross-in-tray": fun.seleccionar_cross_in_tray_function,
+            "Easom": fun.seleccionar_easom_function, 
+            "Egg-holder": fun.seleccionar_egg_holder_function, 
+            "Goldstein price": fun.seleccionar_goldstein_price_function, 
+            "Himmelblau": fun.seleccionar_himmelblau_function, 
+            "Holder table": fun.seleccionar_holder_table_function, 
+            "Levi N. 13": fun.seleccionar_levi_n13_function, 
+            "Matyas": fun.seleccionar_matyas_function, 
+            "McCormick": fun.seleccionar_mc_cormick_function, 
+            "Mi función": fun.seleccionar_mi_function, 
+            "Rosenbrock": fun.seleccionar_rosenbrock_function, 
+            "Schaffaer N. 2": fun.seleccionar_schaffer_n2_function, 
+            "Schaffer N. 4": fun.seleccionar_schaffer_n4_function, 
+            "Sphere": fun.seleccionar_sphere_function, 
+            "Styblinski-Tang": fun.seleccionar_styblinski_tang_function, 
+            "Three-Hump Camel": fun.seleccionar_three_hump_camel_function}
+
+funciones[funcion_objetivo]()
+
+iteracion = 0
 pp = pp_inicial
 pg = pg_inicial
-iteracion = 0
-min_iteraciones = 25
+dibujo_particulas = []
 
-manual = False 
 seguir_iterando = True
 
 # Seleccionamos la funcion que queremos graficar
-
-f.seleccionar_rastrigin_function()
+#fun.seleccionar_ackley_function()
 
 # Creamos la ventana y el canvas
 window = Tk()
 window.title("Algoritmo PSO")
-#window.iconbitmap("icono.ico")
+window.iconbitmap("icono.ico")
 
 # Frame izquierdo para canvas 2D
 frame_left = __import__('tkinter').Frame(window)
@@ -61,9 +95,9 @@ colors = list(Color("red").range_to(Color("green"),definicion_colores))
 valores_fx = []
 for i in range(0, ancho_canva, definicion_canva):
     for o in range(0, alto_canva, definicion_canva):
-        x = (i-0)*((f.final_dom_x-f.inicio_dom_x)/(ancho_canva-0))+f.inicio_dom_x
-        y = (o-0)*((f.final_dom_y-f.inicio_dom_y)/(alto_canva-0))+f.inicio_dom_y
-        fx = f.funcion(x, y)
+        x = (i-0)*((fun.final_dom_x-fun.inicio_dom_x)/(ancho_canva-0))+fun.inicio_dom_x
+        y = (o-0)*((fun.final_dom_y-fun.inicio_dom_y)/(alto_canva-0))+fun.inicio_dom_y
+        fx = fun.funcion(x, y)
         valores_fx.append(fx)
 
 min_fx = min(valores_fx)
@@ -87,14 +121,14 @@ for i in range(0, ancho_canva, definicion_canva):
         canvas.create_rectangle(i, o, i+definicion_canva, o+definicion_canva,
                                outline=colors[color_index],
                                fill=colors[color_index])
-        
-fig = plt.figure(figsize=(5, 5))
+
+fig = plt.figure(figsize=(ancho_canva/100, alto_canva/100))
 ax = fig.add_subplot(111, projection='3d')
 # Crear malla para la función objetivo
-x = np.linspace(f.inicio_dom_x, f.final_dom_x, 100)
-y = np.linspace(f.inicio_dom_y, f.final_dom_y, 100)
+x = np.linspace(fun.inicio_dom_x, fun.final_dom_x, 100)
+y = np.linspace(fun.inicio_dom_y, fun.final_dom_y, 100)
 X, Y = np.meshgrid(x, y)
-Z = np.vectorize(f.funcion)(X, Y)
+Z = np.vectorize(fun.funcion)(X, Y)
 surf = ax.plot_surface(X, Y, Z, cmap='RdYlGn', edgecolor='none', alpha=0.9)
 ax.set_title('Función objetivo (3D)')
 ax.set_xlabel('x')
@@ -176,21 +210,39 @@ def finalizar_algoritmo(event):
     global seguir_iterando
     seguir_iterando = False
     window.destroy()
-    print()
     print("Algoritmo finalizado.")
     print("Mejor posicion global encontrada:",
-          format(f.trans_lin_dom_x(enjambre1.mejor_pos_global_x,0,ancho_canva),
+          format(fun.trans_lin_dom_x(enjambre1.mejor_pos_global_x,0,ancho_canva),
                  ".5f"),
-          format(f.trans_lin_dom_y(enjambre1.mejor_pos_global_y,0,alto_canva),
+          format(fun.trans_lin_dom_y(enjambre1.mejor_pos_global_y,0,alto_canva),
                  ".5f"))
     print("Mejor valor encontrado:",
-          format(f.funcion(f.trans_lin_dom_x \
+          format(fun.funcion(fun.trans_lin_dom_x \
                            (enjambre1.mejor_pos_global_x,0,ancho_canva),
-                           f.trans_lin_dom_y \
-                           (enjambre1.mejor_pos_global_y,0,alto_canva)),
-                            ".5f"))
+                           fun.trans_lin_dom_y \
+                           (enjambre1.mejor_pos_global_y,0,alto_canva)),".5f"))
+    config = {
+        'resultados': (resultados+
+                       "\nAlgoritmo finalizado."+
+                       "\nMejor posicion global encontrada: "+
+                       format(fun.trans_lin_dom_x(enjambre1.mejor_pos_global_x,
+                                                  0,ancho_canva),".5f") + " " +
+                       format(fun.trans_lin_dom_y(enjambre1.mejor_pos_global_y,
+                                                  0,alto_canva),".5f")+ " " +
+                       "\nMejor valor encontrado: "+
+                       format(fun.funcion(fun.trans_lin_dom_x \
+                             (enjambre1.mejor_pos_global_x,0,ancho_canva),
+                              fun.trans_lin_dom_y \
+                             (enjambre1.mejor_pos_global_y,0,alto_canva)),".5f")
+                             +"\n")
+    }
+    
+    # Guardar configuración en archivo
+    with open('config.json', 'w') as f:
+        json.dump(config, f)
 # Finalizamos el algoritmo al presionar la tecla "e"
 window.bind("<e>", finalizar_algoritmo)
+
 
 # Bucle de ventana
 window.mainloop()
