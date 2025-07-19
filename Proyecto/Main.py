@@ -1,42 +1,71 @@
 from tkinter import Tk, Frame, Label, Entry, Checkbutton, Button, Radiobutton, IntVar, StringVar, OptionMenu, scrolledtext
 import os
+import subprocess
+import threading
 import json
 
 import Funciones as fun
+from MOPSO import Funciones_MOPSO as fun_mo
 
-# Funciones de los Botones
+objetivo = 1
+
+# Funciones
 def Cambiar_Todas_Las_Configuraciones():
-    config = {
-        'ancho_canva': int(conf_anchocanvas_entry.get()),
-        'alto_canva': int(conf_altocanvas_entry.get()),
-        'definicion_canva': int(conf_defcanvas_entry.get()),
-        'definicion_colores': int(conf_defcolores_entry.get()),
-        'num_particulas': int(conf_numparticulas_entry.get()),
-        'w': float(conf_pesoinceria_entry.get()),
-        'min_iteraciones': int(conf_miniteraciones_entry.get()),
-        'pp_inicial': float(conf_ppinicial_entry.get()),
-        'pp_final': float(conf_ppfinal_entry.get()),
-        'pg_inicial': float(conf_pginicial_entry.get()),
-        'pg_final': float(conf_pgfinal_entry.get()),
-        'manual': bool(manual_var.get()),
-        'funcion_objetivo': funcion_seleccionada.get(),
-        'resultados': resultados_scroll.get("1.0", "end-1c")
-    }
-    
-    # Guardar configuración en archivo
-    with open('config.json', 'w') as f:
-        json.dump(config, f)
-ultimo_resultado = ""  
+    if objetivo == 1:
+        config = {
+            'ancho_canva': int(conf_anchocanvas_entry.get()),
+            'alto_canva': int(conf_altocanvas_entry.get()),
+            'definicion_canva': int(conf_defcanvas_entry.get()),
+            'definicion_colores': int(conf_defcolores_entry.get()),
+            'num_particulas': int(conf_numparticulas_entry.get()),
+            'w': float(conf_pesoinceria_entry.get()),
+            'min_iteraciones': int(conf_miniteraciones_entry.get()),
+            'pp_inicial': float(conf_ppinicial_entry.get()),
+            'pp_final': float(conf_ppfinal_entry.get()),
+            'pg_inicial': float(conf_pginicial_entry.get()),
+            'pg_final': float(conf_pgfinal_entry.get()),
+            'manual': bool(manual_var.get()),
+            'funcion_objetivo': funcion_seleccionada.get(),
+            'resultados': resultados_scroll.get("1.0", "end-1c")
+        }
+        # Guardar configuración en archivo
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+    else:
+        config = {
+            'ancho_canva': int(conf_anchocanvas_entry.get()),
+            'alto_canva': int(conf_altocanvas_entry.get()),
+            'num_particulas': int(conf_numparticulas_entry.get()),
+            'w': float(conf_pesoinceria_entry.get()),
+            'pp_inicial': float(conf_ppinicial_entry.get()),
+            'pg_inicial': float(conf_pginicial_entry.get()),
+            'funcion_objetivo': funcion_seleccionada.get(),
+            'resultados': resultados_scroll.get("1.0", "end-1c")
+        }
+        # Guardar configuración en archivo
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+ultimo_resultado = ""
 
 def Iniciar_Optimizacion():
     Cambiar_Todas_Las_Configuraciones()
-    os.system("python Graficadora.py")
+    def lanzar_graficadora_un_objetivo():
+        proceso = subprocess.Popen(["python", "Graficadora.py"])
+        proceso.wait()
+    def lanzar_graficadora_multiobjetivo():
+        proceso = subprocess.Popen(["python", "MOPSO/Graficadora_MOPSO.py"])
+        proceso.wait()
+    if objetivo == 1:
+        threading.Thread(target=lanzar_graficadora_un_objetivo, daemon=True).start()
+    else:
+        threading.Thread(target=lanzar_graficadora_multiobjetivo, daemon=True).start()
 
 def crear_gui():
     global conf_anchocanvas_entry, conf_altocanvas_entry, conf_defcanvas_entry
     global conf_defcolores_entry, conf_numparticulas_entry, conf_pesoinceria_entry
     global conf_ppinicial_entry, conf_ppfinal_entry, conf_pginicial_entry, conf_pgfinal_entry
     global conf_miniteraciones_entry, manual_var, funcion_seleccionada, resultados_scroll
+    global seleccion_funcion_menu, funcion_seleccionada
 
     # Ventana principal
     ventana = Tk()
@@ -73,6 +102,7 @@ def crear_gui():
     frame2.grid_propagate(False)
     frame3.grid_propagate(False)
 
+    objetivo_var = IntVar(value=1)  # Valor por defecto: 1 (Un objetivo)
 
     # Configuración 1 frame
     ## Titulo de configuración
@@ -81,7 +111,6 @@ def crear_gui():
     subtitulo1_label1.grid(row=0, column=0, padx=5, sticky="w", columnspan=2, pady=5)
 
     ## Un objetivo o Multiple objetivos
-    objetivo_var = IntVar(value=1)  # Valor por defecto: 1 (Un objetivo)
 
     un_objetivo_radio = Radiobutton(frame1, text="Un objetivo", value=1,
                                     variable=objetivo_var, bg="lightgray", 
@@ -99,38 +128,54 @@ def crear_gui():
     subtitulo2_label1.grid(row=2, column=0, padx=5, sticky="w", columnspan=2, pady=5)
 
     ## Selección de función objetivo
-    lista_funciones = ["Rastrigin","Ackley", "Sphere","Rosenbrock","Beale",
-                    "Goldstein-Price","Booth","Bukin N 6", "Matyas",
-                    "Levi N 13", "Griewank", "Himmelblau", "Three-Hump Camel",
+    lista_funciones_unobjetivo = ["Mi Función","Rastrigin","Ackley", "Sphere","Rosenbrock","Beale",
+                    "Goldstein-Price","Booth","Bukin N. 6", "Matyas",
+                    "Levi N. 13", "Griewank", "Himmelblau", "Three-Hump Camel",
                     "Easom","Cross-in-Tray","Eggholder","Holder Table", "McCormick",
                     "Schaffer N. 2", "Schaffer N. 4", "Styblinski-Tang"]
-    
+    lista_funciones_multiobjetivo = ["Binh and Korn", "Schaffer N. 1", "Chankong and Haimes",
+                    "Test Function 4", "Poloni's Two Objective Function", "CTP1 Function",
+                    "Kursawe", "Constr-Ex", "Schaffer N. 2"]
+
     funcion_seleccionada = StringVar(value="Ackley") 
-    seleccion_funcion_menu = OptionMenu(frame1, funcion_seleccionada, *lista_funciones,)
+    seleccion_funcion_menu = OptionMenu(frame1, funcion_seleccionada, *lista_funciones_unobjetivo,)
     seleccion_funcion_menu.grid(row=3, column=0, padx=5, pady=5, sticky="w", columnspan=2)
 
     funciones_un_objetivo = {
-    "Rastrigin": fun.seleccionar_rastrigin_function,
-    "Ackley": fun.seleccionar_ackley_function,
-    "Beale": fun.seleccionar_beale_function,
-    "Booth": fun.seleccionar_booth_function,
-    "Bukin N. 6": fun.seleccionar_bukin_n6_function,
-    "Cross-in-tray": fun.seleccionar_cross_in_tray_function,
-    "Easom": fun.seleccionar_easom_function, 
-    "Egg-holder": fun.seleccionar_egg_holder_function, 
-    "Goldstein price": fun.seleccionar_goldstein_price_function, 
-    "Himmelblau": fun.seleccionar_himmelblau_function, 
-    "Holder table": fun.seleccionar_holder_table_function, 
-    "Levi N. 13": fun.seleccionar_levi_n13_function, 
-    "Matyas": fun.seleccionar_matyas_function, 
-    "McCormick": fun.seleccionar_mc_cormick_function, 
-    "Mi función": fun.seleccionar_mi_function, 
-    "Rosenbrock": fun.seleccionar_rosenbrock_function, 
-    "Schaffaer N. 2": fun.seleccionar_schaffer_n2_function, 
-    "Schaffer N. 4": fun.seleccionar_schaffer_n4_function, 
-    "Sphere": fun.seleccionar_sphere_function, 
-    "Styblinski-Tang": fun.seleccionar_styblinski_tang_function, 
-    "Three-Hump Camel": fun.seleccionar_three_hump_camel_function}
+        "Rastrigin": fun.seleccionar_rastrigin_function,
+        "Ackley": fun.seleccionar_ackley_function,
+        "Beale": fun.seleccionar_beale_function,
+        "Booth": fun.seleccionar_booth_function,
+        "Bukin N. 6": fun.seleccionar_bukin_n6_function,
+        "Cross-in-Tray": fun.seleccionar_cross_in_tray_function,
+        "Easom": fun.seleccionar_easom_function, 
+        "Eggholder": fun.seleccionar_egg_holder_function, 
+        "Goldstein-Price": fun.seleccionar_goldstein_price_function, 
+        "Himmelblau": fun.seleccionar_himmelblau_function, 
+        "Holder Table": fun.seleccionar_holder_table_function, 
+        "Levi N. 13": fun.seleccionar_levi_n13_function,
+        "Griewank": fun.seleccionar_griewank_function,
+        "Matyas": fun.seleccionar_matyas_function, 
+        "McCormick": fun.seleccionar_mc_cormick_function, 
+        "Mi Función": fun.seleccionar_mi_function, 
+        "Rosenbrock": fun.seleccionar_rosenbrock_function, 
+        "Schaffer N. 2": fun.seleccionar_schaffer_n2_function, 
+        "Schaffer N. 4": fun.seleccionar_schaffer_n4_function, 
+        "Sphere": fun.seleccionar_sphere_function, 
+        "Styblinski-Tang": fun.seleccionar_styblinski_tang_function, 
+        "Three-Hump Camel": fun.seleccionar_three_hump_camel_function
+    }
+    funciones_multiobjetivo = {
+        "Binh and Korn": fun_mo.seleccionar_binh_and_korn,
+        "Schaffer N. 1": fun_mo.seleccionar_schaffer_n1,
+        "Chankong and Haimes": fun_mo.seleccionar_chankong_and_haimes,
+        "Test Function 4": fun_mo.seleccionar_test_function_4,
+        "Poloni's Two Objective Function": fun_mo.seleccionar_polonis_two_objective_function,
+        "CTP1 Function": fun_mo.seleccionar_ctp1_function,
+        "Kursawe": fun_mo.seleccionar_kursawe2,
+        "Constr-Ex": fun_mo.seleccionar_constr_ex,
+        "Schaffer N. 2": fun_mo.seleccionar_schaffer_n2
+    }   
 
     ## Tercer Titulo de configuración canvas
     subtitulo_label3 = Label(frame1, bg="lightgray", font=("Arial", 12)
@@ -290,14 +335,120 @@ def crear_gui():
     resultados_scroll.configure(state='disabled')
 
     resultados_scroll.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+
+    def actualizar_funcion_objetivo(*args):
+        global seleccion_funcion_menu, funcion_seleccionada
+        global objetivo
+
+        if objetivo_var.get() == 1:
+            objetivo = 1
+            # Elementos que se quitan
+            conf_defcanvas_label.grid()
+            conf_defcanvas_entry.grid()
+            conf_defcanvas_sub_label.grid()
+
+            conf_defcolores_label.grid()
+            conf_defcolores_entry.grid()
+            conf_defcolores_sub_label.grid()
+
+            conf_miniteraciones_label.grid()
+            conf_miniteraciones_entry.grid()
+            conf_miniteraciones_sub_label.grid()
+
+            conf_ppfinal_label.grid()
+            conf_ppfinal_entry.grid()
+            conf_ppfinal_sub_label.grid()
+
+            conf_pgfinal_label.grid()
+            conf_pgfinal_entry.grid()
+            conf_pgfinal_sub_label.grid()
+
+            conf_manual_checkbox.grid()
+
+            seleccion_funcion_menu.grid_remove()
+            funcion_seleccionada = StringVar(value="Ackley") 
+            seleccion_funcion_menu = OptionMenu(frame1, funcion_seleccionada, 
+                                                *lista_funciones_unobjetivo)
+            seleccion_funcion_menu.grid(row=3, column=0, padx=5, pady=5, 
+                                        sticky="w", columnspan=2)
+
+            # Elementos que se configuran
+            conf_numparticulas_entry.delete(0, 'end')
+            conf_pesoinceria_entry.delete(0, 'end')
+            conf_ppinicial_entry.delete(0, 'end')
+            conf_pginicial_entry.delete(0, 'end')
+
+            conf_numparticulas_entry.insert(0, "15")
+            conf_pesoinceria_entry.insert(0, "0.6")
+            conf_ppinicial_entry.insert(0, "2.5")
+            conf_pginicial_entry.insert(0, "0.5")
+
+            conf_ppinicial_label.config(text="Pp Inicial:")
+
+            conf_pginicial_label.config(text="Pg Inicial:")
+
+
+        else:
+            objetivo = 2
+            # Elementos que se quitan
+            conf_defcanvas_label.grid_remove()
+            conf_defcanvas_entry.grid_remove()
+            conf_defcanvas_sub_label.grid_remove()
+
+            conf_defcolores_label.grid_remove()
+            conf_defcolores_entry.grid_remove()
+            conf_defcolores_sub_label.grid_remove()
+
+            conf_miniteraciones_label.grid_remove()
+            conf_miniteraciones_entry.grid_remove()
+            conf_miniteraciones_sub_label.grid_remove()
+
+            conf_ppfinal_label.grid_remove()
+            conf_ppfinal_entry.grid_remove()
+            conf_ppfinal_sub_label.grid_remove()
+
+            conf_pgfinal_label.grid_remove()
+            conf_pgfinal_entry.grid_remove()
+            conf_pgfinal_sub_label.grid_remove()
+
+            conf_manual_checkbox.grid_remove()
+
+            # Elementos que se configuran
+            conf_numparticulas_entry.delete(0, 'end')
+            conf_pesoinceria_entry.delete(0, 'end')
+            conf_ppinicial_entry.delete(0, 'end')
+            conf_pginicial_entry.delete(0, 'end')
+
+            conf_numparticulas_entry.insert(0, "20")
+            conf_pesoinceria_entry.insert(0, "0.2")
+            conf_ppinicial_entry.insert(0, "1.0")
+            conf_pginicial_entry.insert(0, "1.0")
+
+            conf_ppinicial_label.config(text="Pp: ")
+
+            conf_pginicial_label.config(text="Pg: ")
+
+            seleccion_funcion_menu.grid_remove()
+            funcion_seleccionada = StringVar(value="Binh and Korn") 
+            seleccion_funcion_menu = OptionMenu(frame1, funcion_seleccionada, 
+                                                *lista_funciones_multiobjetivo)
+            seleccion_funcion_menu.grid(row=3, column=0, padx=5, pady=5, 
+                                        sticky="w", columnspan=2)
+
+    objetivo_var.trace_add("write", actualizar_funcion_objetivo)
     def Borrar_Resultados():
         resultados_scroll.configure(state='normal')
         resultados_scroll.delete(1.0, 'end')
         resultados_scroll.configure(state='disabled')
-        config = {
-            'resultados': ("Resultados del algoritmo PSO aparecerán aquí...")
-        }
-        # Guardar configuración en archivo
+        # Leer config existente
+        if os.path.exists('config.json'):
+            with open('config.json', 'r') as f:
+                config = json.load(f)
+        else:
+            config = {}
+        # Actualizar solo el campo 'resultados'
+        config['resultados'] = "Resultados del algoritmo PSO aparecerán aquí...\n\n"
+        # Guardar configuración completa
         with open('config.json', 'w') as f:
             json.dump(config, f)
     ## Botón de borrar texto
@@ -323,22 +474,26 @@ def crear_gui():
                         resultados_scroll.configure(state='disabled')
                         
                         ultimo_resultado = nuevo_resultado
-
         except:
             pass
         
         # Verificar cada 2 segundos
         ventana.after(2000, verificar_cambios)
-    def al_cerrar_ventana():
-        config = {
-            'resultados': ("Resultados del algoritmo PSO aparecerán aquí...")
-        }
+    def cerrar_ventana():
+        # Leer config existente
+        if os.path.exists('config.json'):
+            with open('config.json', 'r') as f:
+                config = json.load(f)
+        else:
+            config = {}
+        # Actualizar solo el campo 'resultados'
+        config['resultados'] = "Resultados del algoritmo PSO aparecerán aquí...\n\n"
         with open('config.json', 'w') as f:
             json.dump(config, f)
-
         ventana.destroy()
+        os._exit(0)
 
-    ventana.protocol("WM_DELETE_WINDOW", al_cerrar_ventana)
+    ventana.protocol("WM_DELETE_WINDOW", cerrar_ventana)
     verificar_cambios()
     ventana.mainloop()
 

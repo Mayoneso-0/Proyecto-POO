@@ -1,1 +1,1 @@
-{"resultados": "Resultados del algoritmo PSO aparecer\u00e1n aqu\u00ed..."}
+{"ancho_canva": 500, "alto_canva": 500, "num_particulas": 20, "w": 0.2, "pp_inicial": 1.0, "pg_inicial": 1.0, "funcion_objetivo": "Constr-Ex", "resultados": "Resultados del algoritmo PSO aparecer\u00e1n aqu\u00ed...\n\n\nAlgoritmo finalizado.\nMejor posicion global encontrada: 0.66416 1.30569\nMejor valor encontrado: 0.29675\n"}

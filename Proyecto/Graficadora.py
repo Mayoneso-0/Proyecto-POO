@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import json
-import time
 # pip install matplotlib
 # pip install numpy
 # pip install colour
@@ -37,27 +36,30 @@ if os.path.exists('config.json'):
     resultados = config['resultados']
 
 # Seleccionamos la funcion que queremos graficar
-funciones = {"Rastrigin": fun.seleccionar_rastrigin_function,
-            "Ackley": fun.seleccionar_ackley_function,
-            "Beale": fun.seleccionar_beale_function,
-            "Booth": fun.seleccionar_booth_function,
-            "Bukin N. 6": fun.seleccionar_bukin_n6_function, 
-            "Cross-in-tray": fun.seleccionar_cross_in_tray_function,
-            "Easom": fun.seleccionar_easom_function, 
-            "Egg-holder": fun.seleccionar_egg_holder_function, 
-            "Goldstein price": fun.seleccionar_goldstein_price_function, 
-            "Himmelblau": fun.seleccionar_himmelblau_function, 
-            "Holder table": fun.seleccionar_holder_table_function, 
-            "Levi N. 13": fun.seleccionar_levi_n13_function, 
-            "Matyas": fun.seleccionar_matyas_function, 
-            "McCormick": fun.seleccionar_mc_cormick_function, 
-            "Mi función": fun.seleccionar_mi_function, 
-            "Rosenbrock": fun.seleccionar_rosenbrock_function, 
-            "Schaffaer N. 2": fun.seleccionar_schaffer_n2_function, 
-            "Schaffer N. 4": fun.seleccionar_schaffer_n4_function, 
-            "Sphere": fun.seleccionar_sphere_function, 
-            "Styblinski-Tang": fun.seleccionar_styblinski_tang_function, 
-            "Three-Hump Camel": fun.seleccionar_three_hump_camel_function}
+    funciones = {
+        "Rastrigin": fun.seleccionar_rastrigin_function,
+        "Ackley": fun.seleccionar_ackley_function,
+        "Beale": fun.seleccionar_beale_function,
+        "Booth": fun.seleccionar_booth_function,
+        "Bukin N. 6": fun.seleccionar_bukin_n6_function,
+        "Cross-in-Tray": fun.seleccionar_cross_in_tray_function,
+        "Easom": fun.seleccionar_easom_function, 
+        "Eggholder": fun.seleccionar_egg_holder_function, 
+        "Goldstein-Price": fun.seleccionar_goldstein_price_function, 
+        "Himmelblau": fun.seleccionar_himmelblau_function, 
+        "Holder Table": fun.seleccionar_holder_table_function, 
+        "Levi N. 13": fun.seleccionar_levi_n13_function, 
+        "Griewank": fun.seleccionar_griewank_function,
+        "Matyas": fun.seleccionar_matyas_function, 
+        "McCormick": fun.seleccionar_mc_cormick_function, 
+        "Mi Función": fun.seleccionar_mi_function, 
+        "Rosenbrock": fun.seleccionar_rosenbrock_function, 
+        "Schaffer N. 2": fun.seleccionar_schaffer_n2_function, 
+        "Schaffer N. 4": fun.seleccionar_schaffer_n4_function, 
+        "Sphere": fun.seleccionar_sphere_function, 
+        "Styblinski-Tang": fun.seleccionar_styblinski_tang_function, 
+        "Three-Hump Camel": fun.seleccionar_three_hump_camel_function
+    }
 
 funciones[funcion_objetivo]()
 
@@ -206,43 +208,48 @@ def iterar_algoritmo(event):
 # Iteramos el algoritmo al presionar la tecla "w"
 window.bind("<w>", iterar_algoritmo)
 
-def finalizar_algoritmo(event):
-    global seguir_iterando
-    seguir_iterando = False
-    window.destroy()
-    print("Algoritmo finalizado.")
-    print("Mejor posicion global encontrada:",
-          format(fun.trans_lin_dom_x(enjambre1.mejor_pos_global_x,0,ancho_canva),
-                 ".5f"),
-          format(fun.trans_lin_dom_y(enjambre1.mejor_pos_global_y,0,alto_canva),
-                 ".5f"))
-    print("Mejor valor encontrado:",
-          format(fun.funcion(fun.trans_lin_dom_x \
-                           (enjambre1.mejor_pos_global_x,0,ancho_canva),
-                           fun.trans_lin_dom_y \
-                           (enjambre1.mejor_pos_global_y,0,alto_canva)),".5f"))
-    config = {
-        'resultados': (resultados+
-                       "\nAlgoritmo finalizado."+
-                       "\nMejor posicion global encontrada: "+
-                       format(fun.trans_lin_dom_x(enjambre1.mejor_pos_global_x,
-                                                  0,ancho_canva),".5f") + " " +
-                       format(fun.trans_lin_dom_y(enjambre1.mejor_pos_global_y,
-                                                  0,alto_canva),".5f")+ " " +
-                       "\nMejor valor encontrado: "+
-                       format(fun.funcion(fun.trans_lin_dom_x \
-                             (enjambre1.mejor_pos_global_x,0,ancho_canva),
-                              fun.trans_lin_dom_y \
-                             (enjambre1.mejor_pos_global_y,0,alto_canva)),".5f")
-                             +"\n")
-    }
-    
-    # Guardar configuración en archivo
-    with open('config.json', 'w') as f:
-        json.dump(config, f)
+def finalizar_algoritmo(event=None):
+    try:
+        global seguir_iterando
+        seguir_iterando = False
+        if os.path.exists('config.json'):
+            with open('config.json', 'r') as f:
+                config = json.load(f)
+        else:
+            config = {}
+        config['resultados'] = (
+            resultados+
+            "\nAlgoritmo finalizado." +
+            "\nMejor posicion global encontrada: "+
+            format(fun.trans_lin_dom_x(enjambre1.mejor_pos_global_x,0,ancho_canva),".5f") + " " +
+            format(fun.trans_lin_dom_y(enjambre1.mejor_pos_global_y,0,alto_canva),".5f")+
+            "\nMejor valor encontrado: "+
+            format(fun.funcion(fun.trans_lin_dom_x \
+                    (enjambre1.mejor_pos_global_x,0,ancho_canva),
+                    fun.trans_lin_dom_y \
+                    (enjambre1.mejor_pos_global_y,0,alto_canva)),".5f")+
+            "\n"
+        )
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+        window.destroy()
+        os._exit(0)
+    except Exception as e:
+        seguir_iterando = False
+        if os.path.exists('config.json'):
+            with open('config.json', 'r') as f:
+                config = json.load(f)
+        else:
+            config = {}
+        config['resultados'] = resultados+"Algoritmo no finalizado correctamente.\n\n"
+        with open('config.json', 'w') as f:
+            json.dump(config, f)
+        window.destroy()
+        os._exit(0)
+
 # Finalizamos el algoritmo al presionar la tecla "e"
 window.bind("<e>", finalizar_algoritmo)
-
+window.protocol("WM_DELETE_WINDOW", finalizar_algoritmo)
 
 # Bucle de ventana
 window.mainloop()

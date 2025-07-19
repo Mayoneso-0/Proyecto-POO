@@ -1,9 +1,11 @@
 # Importamos las librerías necesarias
 from tkinter import Tk, Canvas, Frame
 import random
+import os
+import json
 
 # Importamos nuestros módulos de MOPSO
-import Funciones_MOPSO as f_mo
+import Funciones_MOPSO as fun_mo
 import Algoritmo_MOPSO as alg
 
 ancho_canva = 500
@@ -13,11 +15,38 @@ w = 0.2
 pp = 1.0
 pg = 1.0
 
+if os.path.exists('config.json'):
+    with open('config.json', 'r') as f:
+        config = json.load(f)
+    
+    ancho_canva = config['ancho_canva']
+    alto_canva = config['alto_canva']
+    num_particulas = config['num_particulas']
+    w = config['w']
+    pp = config['pp_inicial']
+    pg = config['pg_inicial']
+    funcion_objetivo = config['funcion_objetivo']
+    resultados = config['resultados']
+
+funciones_multiobjetivo = {
+    "Binh and Korn": fun_mo.seleccionar_binh_and_korn,
+    "Schaffer N. 1": fun_mo.seleccionar_schaffer_n1,
+    "Chankong and Haimes": fun_mo.seleccionar_chankong_and_haimes,
+    "Test Function 4": fun_mo.seleccionar_test_function_4,
+    "Poloni's Two Objective Function": fun_mo.seleccionar_polonis_two_objective_function,
+    "CTP1 Function": fun_mo.seleccionar_ctp1_function,
+    "Kursawe": fun_mo.seleccionar_kursawe2,
+    "Constr-Ex": fun_mo.seleccionar_constr_ex,
+    "Schaffer N. 2": fun_mo.seleccionar_schaffer_n2
+}   
+
+funciones_multiobjetivo[funcion_objetivo]()
+
 window = Tk()
 window.title("Visualizador MOPSO")
 
 # Seleccionamos el problema a resolver
-f_mo.seleccionar_schaffer_n2()
+#fun_mo.seleccionar_schaffer_n2()
 
 # Creamos un Frame principal para organizar los dos gráficos
 main_frame = Frame(window)
@@ -122,7 +151,7 @@ def iterar_algoritmo(event=None):
 
 def ejecutar_un_paso():
     global dibujo_lideres_decision, iteracion_activa
-    limite_lideres = f_mo.limite_lideres
+    limite_lideres = fun_mo.limite_lideres
     if not iteracion_activa: return
     # Verificar si alcanzamos el límite de líderes
     if len(enjambre.lideres) >= limite_lideres:
@@ -158,7 +187,7 @@ def ejecutar_un_paso():
     
     graficar_frente_pareto(objective_space_canvas, enjambre.lideres, ancho_canva, alto_canva)
     window.update()
-    window.after(f_mo.delay + 50, ejecutar_un_paso)  # Sumamos los delays
+    window.after(fun_mo.delay + 50, ejecutar_un_paso)  # Sumamos los delays
 
 def finalizar_algoritmo(event=None):
     global iteracion_activa
