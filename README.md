@@ -129,3 +129,4 @@ Graficadora ..> FuncionesMOPSO : utiliza evaluación MOPSO
 ## 🧮 Referencias
 
 - https://en.wikipedia.org/wiki/Particle_swarm_optimization
+- https://en.wikipedia.org/wiki/Test_functions_for_optimization
