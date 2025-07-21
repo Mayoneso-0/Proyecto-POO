@@ -3,7 +3,7 @@
 
 ## 📂 ¿Qué es?
 
-Este proyecto implementa un algoritmo de Optimización por Enjambre de Partículas (PSO) con una interfaz gráfica en Tkinter y Matplotlib para visualizar el comportamiento de las partículas sobre funciones matemáticas clásicas de benchmark. Incluye 21 funciones de prueba y un problema personalizado de un solo objetivo, además
+Este proyecto implementa un algoritmo de Optimización por Enjambre de Partículas (PSO) con una interfaz gráfica en Tkinter y Matplotlib para visualizar el comportamiento de las partículas sobre funciones matemáticas clásicas de benchmark. Incluye 22 funciones de prueba de un solo objetivo (incluido un problema propio) y 9 multiobjetivo.
 
 ---
 
@@ -39,42 +39,6 @@ Proyecto/main.py
 - **Para las funciones multiobjjetivo:**
   > - El algoritmo finaliza tras alcanzar el número óptimo de líderes del frente de Pareto.
   > - Se cierra la ventana con la letra *e*.
-
-## 🧮 Funciones incluidas
-
-- ***Funciones de un solo objetivo***
-> - Ackley
-> - Rastrigin
-> - Sphere
-> - Rosenbrock
-> - Beale
-> - Goldstein-Price
-> - Booth
-> - Bukin N.6
-> - Matyas
-> - Levi N.13
-> - Griewank
-> - Himmelblau
-> - Three-Hump Camel
-> - Easom
-> - Cross-in-Tray
-> - Eggholder
-> - Holder Table
-> - McCormick
-> - Schaffaer N.2
-> - Schaffaer N.4
-> - Styblinski-Tang
-> - Función Personalizada (Mi Función)
-- ***Funciones Multiobjetivo***
->- Binh and Korn
->- Schaffaer N.1
->- Chankong and Haimes
->- Test function N.4
->- Poloni's Two Objective function
->- CTP1 Function
->- Kursawe (Two variables)
->- Constr-Ex
->- Sachaffaer N.2
 
 ---
 
