@@ -59,71 +59,69 @@ Proyecto/main.py
 ```mermaid
 classDiagram
 direction TB
-    class Particula {
-        -x: float
-        -y: float
-        -vel_x: float
-        -vel_y: float
-        -mejor_x: float
-        -mejor_y: float
-    }
 
-    class Enjambre {
-        -num_particulas: int
-        -particulas: list
-        -mejor_pos_global_x: float
-        -mejor_pos_global_y: float
-        +crear_enjambre(ancho, alto)
-        +iterar_algorimo(ancho, alto, w, pp, pg)
-    }
+%% ==== Clases del Algoritmo ====
 
-    Enjambre "1" --> "n" Particula
+class Particula {
+  - x: float
+  - y: float
+  - vel_x: float
+  - vel_y: float
+  - mejor_x: float
+  - mejor_y: float
+  + actualizar_posicion()
+  + evaluar_funciones()
+  + actualizar_mejor()
+}
 
-    class Funciones {
-        +trans_lin_dom_x(x, a, b)
-        +trans_lin_dom_y(x, a, b)
-        +funcion(x, y)
-        +seleccionar_*()
-    }
+class Enjambre {
+  - num_particulas: int
+  - particulas: list
+  - mejor_pos_global_x: float
+  - mejor_pos_global_y: float
+  + crear_enjambre(ancho, alto)
+  + iterar_algoritmo(ancho, alto, w, pp, pg)
+  + actualizar_mejor_global()
+  + seleccionar_frente_pareto()
+}
 
-    Enjambre ..> Funciones : utiliza
+Enjambre "1" --> "n" Particula
 
-    class Ackley
-    class McCormick
-    class BukinN6
-    class LeviN13
-    class Easom
-    class Rastrigin
-    class Sphere
-    class Griewank
-    class CrossInTray
-    class EggHolder
-    class HolderTable
+%% ==== Clases de Funciones ====
 
-    Funciones --> Ackley
-    Funciones --> McCormick
-    Funciones --> BukinN6
-    Funciones --> LeviN13
-    Funciones --> Easom
-    Funciones --> Rastrigin
-    Funciones --> Sphere
-    Funciones --> Griewank
-    Funciones --> CrossInTray
-    Funciones --> EggHolder
-    Funciones --> HolderTable
+class Funciones {
+  + trans_lin_dom_x(x, a, b)
+  + trans_lin_dom_y(y, a, b)
+}
 
-    class Graficadora {
-    - canvas: Canvas
-    - color: Color
-    - window: Tk
-    + iniciar_enjambre() 
-    + iterar_algoritmo() <w>
-    + finalizar_algoritmo() <e>
+class FuncionesMOPSO {
+  + evaluar_funcion_objetivo_1(x, y)
+  + evaluar_funcion_objetivo_2(x, y)
+  + verificar_restricciones(x, y)
+  + domina(p1, p2)
+  + es_factible(x, y)
+}
 
-    }
+FuncionesMOPSO ..> Funciones : reutiliza funciones base
+Enjambre ..> FuncionesMOPSO : usa para evaluar y seleccionar
 
-    Graficadora ..> Enjambre : instancia y usa
-    Graficadora ..> Funciones : selecciona función
+%% ==== Graficador UI ====
+
+class Graficadora {
+  - Tipo de optimización
+  - Función objetivo
+  - Configuración del canvas
+  - Configuración del Algoritmo
+  + iniciar_enjambre()
+  + iterar_algoritmo()
+  + finalizar_algoritmo()
+  + graficar_particulas()
+  + seleccionar_funcion()
+}
+
+Graficadora ..> Enjambre : instancia y opera
+Graficadora ..> Funciones : permite seleccionar función
+Graficadora ..> FuncionesMOPSO : utiliza evaluación MOPSO
 ```
 
 ---
