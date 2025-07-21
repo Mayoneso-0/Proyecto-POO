@@ -3,7 +3,7 @@
 
 ## 📂 ¿Qué es?
 
-Este proyecto implementa un algoritmo de Optimización por Enjambre de Partículas (PSO) con una interfaz gráfica en Tkinter y Matplotlib para visualizar el comportamiento de las partículas sobre funciones matemáticas clásicas de benchmark.
+Este proyecto implementa un algoritmo de Optimización por Enjambre de Partículas (PSO) con una interfaz gráfica en Tkinter y Matplotlib para visualizar el comportamiento de las partículas sobre funciones matemáticas clásicas de benchmark. Incluye 21 funciones de prueba y un problema personalizado de un solo objetivo, además
 
 ---
 
@@ -40,23 +40,55 @@ Proyecto/main.py
   > - El algoritmo finaliza tras alcanzar el número óptimo de líderes del frente de Pareto.
   > - Se cierra la ventana con la letra *e*.
 
+## 🧮 Funciones incluidas
+
+- ***Funciones de un solo objetivo***
+> - Ackley
+> - Rastrigin
+> - Sphere
+> - Rosenbrock
+> - Beale
+> - Goldstein-Price
+> - Booth
+> - Bukin N.6
+> - Matyas
+> - Levi N.13
+> - Griewank
+> - Himmelblau
+> - Three-Hump Camel
+> - Easom
+> - Cross-in-Tray
+> - Eggholder
+> - Holder Table
+> - McCormick
+> - Schaffaer N.2
+> - Schaffaer N.4
+> - Styblinski-Tang
+> - Función Personalizada (Mi Función)
+- ***Funciones Multiobjetivo***
+>- Binh and Korn
+>- Schaffaer N.1
+>- Chankong and Haimes
+>- Test function N.4
+>- Poloni's Two Objective function
+>- CTP1 Function
+>- Kursawe (Two variables)
+>- Constr-Ex
+>- Sachaffaer N.2
+
+---
+
+## 💻Autores (Aleph-Zero ℵ₀)
+
+- Jimena González - [@Jimeeee06](https://github.com/Jimeeee06)
+- Daniel Paz - [@Mayoneso-0](https://github.com/Mayoneso-0)
+- Miguel Ortegón - [Miguel-Coder-24](https://github.com/Miguel-Coder-24)
+
+---
+
+## 🗒️Diagrama de clases
 
 
-
-
-
-
-
-
-El main es graficadora y la librería colour es necesaria para manejar la paleta de colores. El comando está comentado en el código de Graficadora.py.
-Luego, dentro de la interfaz gráfica selecciona la función deseada  modificando manualmente en el código:
-self.funcion = seleccionarAckleyFunction()
-Por ahora hay 11 funciones para implementar, las opciones son de esta wiki: https://en.wikipedia.org/wiki/Test_functions_for_optimization.
-
-Teclas asociadas:
-      q → iniciar_enjambre()
-      w → iterar_algoritmo()
-      e → finalizar_algoritmo()
 ```mermaid
 classDiagram
     class Particula {
