@@ -21,7 +21,8 @@ def map_to_domain(value, source_range, target_range) -> float:
     if source_max - source_min == 0:
         return target_min
         
-    return target_min + (value - source_min) * (target_max - target_min) / (source_max - source_min)
+    return target_min + (value - source_min) * (target_max - target_min) / \
+            (source_max - source_min)
 
 def map_to_domain_x(value, canvas_max) -> float:
     """Mapea el valor X del canvas al dominio del problema."""
@@ -229,10 +230,10 @@ def seleccionar_kursawe2():
     global objectives_func, constraints_func, delay, limite_lideres
 
     inicio_dom_x = inicio_dom_y = -5
-    final_dom_x  = final_dom_y  =  5
+    final_dom_x = final_dom_y = 5
     delay = 10
 
-    objectives_func  = kursawe2_objectives
+    objectives_func = kursawe2_objectives
     constraints_func = kursawe2_constraints
 
     print("Problema: Kursawe (n=2)")
@@ -266,9 +267,9 @@ def seleccionar_constr_ex():
 
 def schaffer_n2_objectives(x, y) -> tuple:
     # Funciones objetivo de Schaffer N. 2
-    if x<= 1:
+    if x <= 1:
         f1 = -x
-    elif 1 < x <=3:
+    elif 1 < x <= 3:
         f1 = x - 2
     elif 3 < x <= 4:
         f1 = 4 - x
