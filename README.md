@@ -49,7 +49,7 @@ Proyecto/main.py
 
 - Jimena González - [@Jimeeee06](https://github.com/Jimeeee06)
 - Daniel Paz - [@Mayoneso-0](https://github.com/Mayoneso-0)
-- Miguel Ortegón - [Miguel-Coder-24](https://github.com/Miguel-Coder-24)
+- Miguel Ortegón - [@Miguel-Coder-24](https://github.com/Miguel-Coder-24)
 
 ---
 
@@ -58,7 +58,7 @@ Proyecto/main.py
 
 ```mermaid
 classDiagram
-direction TB
+direction LR
 
 %% ==== Clases del Algoritmo ====
 
