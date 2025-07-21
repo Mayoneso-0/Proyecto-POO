@@ -39,7 +39,7 @@ Proyecto/main.py
 - **Para las funciones de un solo objetivo:**
   > - El algoritmo finaliza y la gráfica se cierra tras 20 iteraciones con el punto más óptimo de la función.
   > - Si se desea finalizar el algoritmo antes del criterio definido, se realiza con la letra *e*.
-- **Para las funciones multiobjjetivo:**
+- **Para las funciones multiobjetivo:**
   > - El algoritmo finaliza tras alcanzar el número óptimo de líderes del frente de Pareto.
   > - Se cierra la ventana con la letra *e*.
 
