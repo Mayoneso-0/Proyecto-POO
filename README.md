@@ -1,4 +1,38 @@
-Este proyecto implementa un algoritmo de optimización por enjambre de partículas (PSO) con una interfaz gráfica en Tkinter para visualizar el comportamiento de las partículas sobre funciones matemáticas clásicas de benchmark.
+# <h1 align="center">Particle Swarm Optimization (PSO) - Pyhton - POO</h1>
+## By Aleph-Zero (ℵ₀)
+
+## 📂 ¿Qué es?
+
+Este proyecto implementa un algoritmo de Optimización por Enjambre de Partículas (PSO) con una interfaz gráfica en Tkinter y Matplotlib para visualizar el comportamiento de las partículas sobre funciones matemáticas clásicas de benchmark.
+
+---
+
+## 📊 Implementación
+
+## 🧩 Requisitos previos
+
+- Versión mínima requerida: Python 3.7.
+- Versión recomendada: Python 3.9.
+
+Además, para la visualización de las funciones es necesario instalar
+- Colour
+- Matplotlib
+- Numpy
+
+## 🎮 Funcionamiento 
+
+1. El programa se ejecuta desde 
+```cmd
+Proyecto/main.py
+```
+2. Desde la ventana principal se escoge el tipo de optimización, la función, la configuración de la gráfica y los ajustes iniciales del algoritmo.
+<img width="1001" height="533" alt="image" src="https://github.com/user-attachments/assets/c39099ba-540d-4fbc-b749-f47dfe7b73cf" />
+
+
+
+
+
+
 
 El main es graficadora y la librería colour es necesaria para manejar la paleta de colores. El comando está comentado en el código de Graficadora.py.
 Luego, dentro de la interfaz gráfica selecciona la función deseada  modificando manualmente en el código:
