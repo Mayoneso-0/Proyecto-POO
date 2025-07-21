@@ -120,8 +120,6 @@ class Graficadora {
 }
 
 class Main {
- + Main()
- + iniciar optimización
  + cambiar_Todas_Las_Configuraciones()
  + iniciar_Optimizacion()
  + crear_gui()
