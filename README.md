@@ -14,10 +14,13 @@ Este proyecto implementa un algoritmo de Optimización por Enjambre de Partícul
 - Versión mínima requerida: Python 3.7.
 - Versión recomendada: Python 3.9.
 
-Además, para la visualización de las funciones es necesario instalar
-- Colour
-- Matplotlib
+Además, para la visualización de las funciones es necesario instalar con
+```cmd
+pip install numpy matplotlib colour
+```
 - Numpy
+- Matplotlib
+- Colour
 
 ## 🎮 Funcionamiento 
 
@@ -55,6 +58,7 @@ Proyecto/main.py
 
 ```mermaid
 classDiagram
+direction TB
     class Particula {
         -x: float
         -y: float
