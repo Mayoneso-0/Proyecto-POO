@@ -85,7 +85,8 @@ class Enjambre:
             # Ecuaciones de velocidad de PSO
             ranP = random.random()
             ranG = random.random()
-            p.vel_x = w * p.vel_x + pp * ranP * (p.mejor_x - p.x) + pg * ranG * (lider_x - p.x)
+            p.vel_x = w * p.vel_x + pp * ranP * (p.mejor_x - p.x) + pg * \
+                ranG * (lider_x - p.x)
             p.vel_y = w * p.vel_y + pp * ranP * (p.mejor_y - p.y)
             
             # Actualizar posición
