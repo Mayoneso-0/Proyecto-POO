@@ -67,7 +67,7 @@ decision_space_canvas.create_line(padding, alto_canva - padding, padding, 10,
                                   arrow="last")  # Eje Y
 decision_space_canvas.create_text(ancho_canva/2, alto_canva - 15, text="X")
 decision_space_canvas.create_text(15, alto_canva/2, text="Y", angle=90)
-decision_space_canvas.create_text(10, 10, text="Espacio de Decisión (x, y)", 
+decision_space_canvas.create_text(50, 20, text="Espacio de Decisión (x, y)", 
                                   anchor="nw")
 
 
@@ -92,7 +92,7 @@ def map_value(value, from_min, from_max, to_min, to_max):
 def graficar_frente_pareto(canvas, lideres, ancho, alto):
     """Dibuja el Frente de Pareto (los líderes) en el canvas de objetivos."""
     canvas.delete("all")
-    canvas.create_text(10, 10, text="Espacio de Objetivos (f1, f2)", anchor="nw")
+    canvas.create_text(50, 20, text="Frente de Pareto (f1, f2)", anchor="nw")
     padding = 40
 
     if not lideres:
@@ -178,8 +178,8 @@ def ejecutar_un_paso():
     # Verificar si alcanzamos el límite de líderes
     if len(enjambre.lideres) >= limite_lideres:
         iteracion_activa = False
-        print(f"\nAlgoritmo finalizado: Se alcanzaron {limite_lideres} \
-              lideres en el frente de Pareto")
+        print(f"\nAlgoritmo finalizado: Se alcanzaron {limite_lideres} "
+              "lideres en el frente de Pareto")
         return
 
     # Ejecutar una iteración del algoritmo MOPSO
