@@ -26,7 +26,8 @@ Además, para la visualización de las funciones es necesario instalar
 Proyecto/main.py
 ```
 2. Desde la ventana principal se escoge el tipo de optimización, la función, la configuración de la gráfica y los ajustes iniciales del algoritmo.
-<img width="1001" height="533" alt="image" src="https://github.com/user-attachments/assets/c39099ba-540d-4fbc-b749-f47dfe7b73cf" />
+<img width="1002" height="532" alt="image" src="https://github.com/user-attachments/assets/6e14b5f5-358a-408d-9abd-983a43b7ca2f" />
+
 
 
 
