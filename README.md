@@ -58,27 +58,27 @@ Proyecto/main.py
 
 ```mermaid
 classDiagram
-direction LR
+direction TB
 
 %% ==== Clases del Algoritmo ====
 
 class Particula {
-  - x: float
-  - y: float
-  - vel_x: float
-  - vel_y: float
-  - mejor_x: float
-  - mejor_y: float
+  + x: float
+  + y: float
+  + vel_x: float
+  + vel_y: float
+  + mejor_x: float
+  + mejor_y: float
   + actualizar_posicion()
   + evaluar_funciones()
   + actualizar_mejor()
 }
 
 class Enjambre {
-  - num_particulas: int
-  - particulas: list
-  - mejor_pos_global_x: float
-  - mejor_pos_global_y: float
+  + num_particulas: int
+  + particulas: list
+  + mejor_pos_global_x: float
+  + mejor_pos_global_y: float
   + crear_enjambre(ancho, alto)
   + iterar_algoritmo(ancho, alto, w, pp, pg)
   + actualizar_mejor_global()
@@ -108,10 +108,10 @@ Enjambre ..> FuncionesMOPSO : usa para evaluar y seleccionar
 %% ==== Graficador UI ====
 
 class Graficadora {
-  - Tipo de optimización
-  - Función objetivo
-  - Configuración del canvas
-  - Configuración del Algoritmo
+  + Tipo de optimización
+  + Función objetivo
+  + Configuración del canvas
+  + Configuración del Algoritmo
   + iniciar_enjambre()
   + iterar_algoritmo()
   + finalizar_algoritmo()
@@ -119,9 +119,19 @@ class Graficadora {
   + seleccionar_funcion()
 }
 
+class Main {
+ + Main()
+ + iniciar optimización
+ + cambiar_Todas_Las_Configuraciones()
+ + iniciar_Optimizacion()
+ + crear_gui()
+ + actualizar_funcion_obejtivo()
+}
+
 Graficadora ..> Enjambre : instancia y opera
 Graficadora ..> Funciones : permite seleccionar función
 Graficadora ..> FuncionesMOPSO : utiliza evaluación MOPSO
+Main ..> Graficadora
 ```
 
 ---
