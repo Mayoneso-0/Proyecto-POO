@@ -121,3 +121,9 @@ classDiagram
     Graficadora ..> Enjambre : instancia y usa
     Graficadora ..> Funciones : selecciona función
 ```
+
+---
+
+## 🧮 Referencias
+
+- https://en.wikipedia.org/wiki/Particle_swarm_optimization
