@@ -35,9 +35,9 @@ Proyecto/main.py
 3. Se inicia la optimización:
 
 - Tras aparecer la gráfica inicial de la función, se inicializa  el enjambre de partículas con la letra *q*.
-- Se inician las iteraciones con la letra *w*.
+- Se inician las iteraciones con la letra *w*. En caso de ser manual, se debe presionar esta tecla para cada iteración.
 - **Para las funciones de un solo objetivo:**
-  > - El algoritmo finaliza y la gráfica se cierra tras 20 iteraciones con el punto más óptimo de la función.
+  > - El algoritmo finaliza y la gráfica se cierra tras encontrar definitivamente el punto óptimo en la función.
   > - Si se desea finalizar el algoritmo antes del criterio definido, se realiza con la letra *e*.
 - **Para las funciones multiobjetivo:**
   > - El algoritmo finaliza tras alcanzar el número óptimo de líderes del frente de Pareto.
