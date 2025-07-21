@@ -1,15 +1,18 @@
 # Importamos las librerias necesarias
-from tkinter import Tk, Canvas
-from colour import Color #Para este necesitamos instalar libreria "colour" con
-import math
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-import json
+# Necesitamos instalar algunas previamente con:
 # pip install matplotlib
 # pip install numpy
 # pip install colour
+
+import os
+import json
+import math
+from tkinter import Tk, Canvas
+from colour import Color
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+import numpy as np
 
 import Funciones as fun
 import Algoritmo as alg
@@ -35,8 +38,10 @@ if os.path.exists('config.json'):
     funcion_objetivo = config['funcion_objetivo']
     resultados = config['resultados']
 
-# Seleccionamos la funcion que queremos graficar
-    funciones = {
+"""
+Seleccionamos la funcion que queremos graficar
+"""
+funciones = {
         "Rastrigin": fun.seleccionar_rastrigin_function,
         "Ackley": fun.seleccionar_ackley_function,
         "Beale": fun.seleccionar_beale_function,
@@ -70,9 +75,6 @@ dibujo_particulas = []
 
 seguir_iterando = True
 
-# Seleccionamos la funcion que queremos graficar
-#fun.seleccionar_ackley_function()
-
 # Creamos la ventana y el canvas
 window = Tk()
 window.title("Algoritmo PSO")
@@ -80,25 +82,27 @@ window.iconbitmap("icono.ico")
 
 # Frame izquierdo para canvas 2D
 frame_left = __import__('tkinter').Frame(window)
-frame_left.pack(side='left', fill='both', expand=True)
+frame_left.pack(side ='left', fill ='both', expand = True)
 # Frame derecho para canvas 3D
 frame_right = __import__('tkinter').Frame(window)
-frame_right.pack(side='right', fill='both', expand=True)
+frame_right.pack(side ='right', fill = 'both', expand = True)
 
 # Canvas de Tkinter y visualización 2D 
-canvas = Canvas(frame_left, width=ancho_canva, height=alto_canva)
-canvas.pack(fill='both', expand=True)
+canvas = Canvas(frame_left, width = ancho_canva, height = alto_canva)
+canvas.pack(fill = 'both', expand = True)
 
 # Gradiente Colores
-colors = list(Color("red").range_to(Color("green"),definicion_colores))
+colors = list(Color("red").range_to(Color("green"), definicion_colores))
 
 # Graficamos Funcion con normalización adaptable
 # Primero calculamos todos los valores de la función en la grilla
 valores_fx = []
 for i in range(0, ancho_canva, definicion_canva):
     for o in range(0, alto_canva, definicion_canva):
-        x = (i-0)*((fun.final_dom_x-fun.inicio_dom_x)/(ancho_canva-0))+fun.inicio_dom_x
-        y = (o-0)*((fun.final_dom_y-fun.inicio_dom_y)/(alto_canva-0))+fun.inicio_dom_y
+        x = (i-0) * ((fun.final_dom_x - fun.inicio_dom_x) / 
+                    (ancho_canva - 0)) + fun.inicio_dom_x
+        y = (o-0)*((fun.final_dom_y - fun.inicio_dom_y) /
+                   (alto_canva - 0)) + fun.inicio_dom_y
         fx = fun.funcion(x, y)
         valores_fx.append(fx)
 
@@ -116,22 +120,24 @@ for i in range(0, ancho_canva, definicion_canva):
             norm_fx = math.log(fx - min_fx + 1) # Evitamos log(0) sumando 1
             norm_min = 0
             norm_max = math.log(max_fx - min_fx + 1)
-            color_index = int((norm_fx - norm_min) / (norm_max - norm_min) * (len(colors)-1))
+            color_index = int((norm_fx - norm_min) / (
+                norm_max - norm_min) * (len(colors)-1))
         else:
-            color_index = int((fx - min_fx) / (max_fx - min_fx) * (len(colors)-1))
+            color_index = int((fx - min_fx) / 
+                              (max_fx - min_fx) * (len(colors) - 1))
         color_index = max(0, min(color_index, len(colors)-1))
-        canvas.create_rectangle(i, o, i+definicion_canva, o+definicion_canva,
-                               outline=colors[color_index],
-                               fill=colors[color_index])
+        canvas.create_rectangle(i, o, i + definicion_canva, o+definicion_canva,
+                               outline = colors[color_index],
+                               fill = colors[color_index])
 
-fig = plt.figure(figsize=(ancho_canva/100, alto_canva/100))
+fig = plt.figure(figsize = (ancho_canva/100, alto_canva/100))
 ax = fig.add_subplot(111, projection='3d')
 # Crear malla para la función objetivo
 x = np.linspace(fun.inicio_dom_x, fun.final_dom_x, 100)
 y = np.linspace(fun.inicio_dom_y, fun.final_dom_y, 100)
 X, Y = np.meshgrid(x, y)
 Z = np.vectorize(fun.funcion)(X, Y)
-surf = ax.plot_surface(X, Y, Z, cmap='RdYlGn', edgecolor='none', alpha=0.9)
+surf = ax.plot_surface(X, Y, Z, cmap ='RdYlGn', edgecolor ='none', alpha = 0.9)
 ax.set_title('Función objetivo (3D)')
 ax.set_xlabel('x')
 ax.set_ylabel('y')  
@@ -139,8 +145,8 @@ ax.set_zlabel('f(x, y)')
 
 # Creamos el enjambre de particulas
 enjambre1 = None
-# Embebemos la figura 3D en Tkinter a la derecha
-canvas3d = FigureCanvasTkAgg(fig, master=frame_right)
+# Embezamos la figura 3D en Tkinter a la derecha
+canvas3d = FigureCanvasTkAgg(fig, master = frame_right)
 canvas3d.draw()
 canvas3d.get_tk_widget().pack(fill='both', expand=True)
 
@@ -150,10 +156,12 @@ def iniciar_enjambre(event):
     global enjambre_creado, enjambre1, dibujo_particulas
     if not enjambre_creado:
         enjambre1 = alg.Enjambre(num_particulas = num_particulas)
-        enjambre1.crear_enjambre(ancho_canva=ancho_canva, alto_canva=alto_canva)
+        enjambre1.crear_enjambre(ancho_canva = ancho_canva, 
+                                 alto_canva = alto_canva)
         for i in enjambre1.particulas:
-            dibujo_particulas.append(canvas.create_rectangle(i.x,i.y,i.x+5,i.y+5,
-                                                            fill="blue"))
+            dibujo_particulas.append(canvas.create_rectangle(i.x, i.y, 
+                                                             i.x + 5, i.y + 5, 
+                                                             fill = "blue"))
         enjambre_creado = True
 # Creamos el enjambre al presionar la tecla "q"
 window.bind("<q>", iniciar_enjambre)
@@ -165,14 +173,15 @@ def iterar_algoritmo(event):
         return
     num_coords_iguales = 0
     mejor_coords_penultima = 0
-    mejor_cooords_ultima = (enjambre1.mejor_pos_global_x, enjambre1.mejor_pos_global_y)
+    mejor_cooords_ultima = (enjambre1.mejor_pos_global_x, 
+                            enjambre1.mejor_pos_global_y)
     # Si manual es True, iteramos solo una vez
     if manual:
-        nuevo_pos_x, nuevo_pos_y = enjambre1.iterar_algorimo(ancho_canva=ancho_canva,
-                                                            alto_canva=alto_canva,
-                                                            w=w, pp=pp, pg=pg)
-        for i in range(0,len(enjambre1.particulas)):
-            canvas.move(dibujo_particulas[i],nuevo_pos_x[i],nuevo_pos_y[i])
+        nuevo_pos_x, nuevo_pos_y = enjambre1.iterar_algorimo(ancho_canva = ancho_canva,
+                                                            alto_canva = alto_canva,
+                                                            w = w, pp = pp, pg = pg)
+        for i in range(0, len(enjambre1.particulas)):
+            canvas.move(dibujo_particulas[i], nuevo_pos_x[i], nuevo_pos_y[i])
         # Actualizamos los valores de pp y pg por cada iteración
         if pp > pp_final:
                 pp -= 0.1
@@ -181,11 +190,11 @@ def iterar_algoritmo(event):
     # Si manual es False, iteramos cada 100ms hasta que converja
     else:
         while seguir_iterando:
-            nuevo_pos_x, nuevo_pos_y = enjambre1.iterar_algorimo(ancho_canva=ancho_canva,
-                                                                alto_canva=alto_canva,
-                                                                w=w, pp=pp, pg=pg)
+            nuevo_pos_x, nuevo_pos_y = enjambre1.iterar_algorimo(ancho_canva = ancho_canva,
+                                                                alto_canva = alto_canva,
+                                                                w = w, pp = pp, pg = pg)
             for i in range(0,len(enjambre1.particulas)):
-                canvas.move(dibujo_particulas[i],nuevo_pos_x[i],nuevo_pos_y[i])
+                canvas.move(dibujo_particulas[i], nuevo_pos_x[i], nuevo_pos_y[i])
             window.update()
             window.after(100)
             mejor_coords_penultima = mejor_cooords_ultima
@@ -221,13 +230,15 @@ def finalizar_algoritmo(event=None):
             resultados+
             "\nAlgoritmo finalizado." +
             "\nMejor posicion global encontrada: "+
-            format(fun.trans_lin_dom_x(enjambre1.mejor_pos_global_x,0,ancho_canva),".5f") + " " +
-            format(fun.trans_lin_dom_y(enjambre1.mejor_pos_global_y,0,alto_canva),".5f")+
+            format(fun.trans_lin_dom_x(enjambre1.mejor_pos_global_x, 0, 
+                                       ancho_canva), ".5f") + " " +
+            format(fun.trans_lin_dom_y(enjambre1.mejor_pos_global_y,0 
+                                       ,alto_canva), ".5f") +
             "\nMejor valor encontrado: "+
             format(fun.funcion(fun.trans_lin_dom_x \
-                    (enjambre1.mejor_pos_global_x,0,ancho_canva),
+                    (enjambre1.mejor_pos_global_x, 0, ancho_canva),
                     fun.trans_lin_dom_y \
-                    (enjambre1.mejor_pos_global_y,0,alto_canva)),".5f")+
+                    (enjambre1.mejor_pos_global_y, 0, alto_canva)), ".5f")+
             "\n"
         )
         with open('config.json', 'w') as f:
@@ -241,7 +252,8 @@ def finalizar_algoritmo(event=None):
                 config = json.load(f)
         else:
             config = {}
-        config['resultados'] = resultados+"Algoritmo no finalizado correctamente.\n\n"
+        config['resultados'] = resultados 
+        + "Algoritmo no finalizado correctamente.\n\n"
         with open('config.json', 'w') as f:
             json.dump(config, f)
         window.destroy()
